@@ -27,3 +27,11 @@ cd eliza
 pnpm install
 pnpm build
 pnpm start --characters="./agent/characters/neo.character.json"
+
+## The AI NEO token is deployed on Neo X chain
+-   Contract Address:  0x32D978Ea8E6aD44210dE0e39AE9B2171e08dB257
+-   Total Supply: 1 billion tokens
+-   Decimals: 18
+-   Symbol: AINEO
+-   Network: Neo X Chain
+-   View on Explorer:  https://xexplorer.neo.org/token/0x32D978Ea8E6aD44210dE0e39AE9B2171e08dB257
