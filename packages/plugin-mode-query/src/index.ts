@@ -9,7 +9,7 @@ import {
 } from "@elizaos/core";
 import axios from 'axios';
 
-const BLOCKSCOUT_API = 'https://xt4scan.ngd.network:8877/api';
+const BLOCKSCOUT_API = 'https://edu-chain-testnet.blockscout.com/api/v2';
 
 interface BlockscoutResponse<T> {
     items: any;
@@ -179,20 +179,23 @@ const getLatestBlock: Action = {
         if (!callback) return;
 
         try {
-            const response = await axios.get<BlockscoutResponse<Block>>(`${BLOCKSCOUT_API}/v1/blocks`);
-            console.log(response.data.items[0]);
-            if (!response.data || response.data.status !== 'success') {
-                callback({
-                    text: response.data?.message || 'Failed to fetch latest block'
-                });
-                return;
-            }
+            const response = await axios.get<BlockscoutResponse<Block>>(`${BLOCKSCOUT_API}/blocks`);
+
+            // if (response.data || response.data.status !== 'success') {
+            //     callback({
+            //         text: response.data?.message || 'Failed to fetch latest block'
+            //     });
+            //     return;
+            // }
 
             const block = response.data.items[0];
+            console.log("1");
+            console.log(block.height);
             callback({
                 text: `Latest block:\nNumber: ${block.height || 'N/A'}\nTimestamp: ${block.timestamp || 'N/A'}\nHash: ${block.hash || 'N/A'}`
             });
         } catch (error: any) {
+            console.log("3");
             elizaLogger.error('Error fetching latest block:', error);
             callback({
                 text: `Failed to fetch latest block: ${error.message}`
@@ -244,7 +247,7 @@ const getTransactions: Action = {
             }
 
             elizaLogger.log(`Fetching transaction: ${txHash}`);
-            const response = await axios.get<TransactionDetails>(`${BLOCKSCOUT_API}/v1/transactions/${txHash}`);
+            const response = await axios.get<TransactionDetails>(`${BLOCKSCOUT_API}/transactions/${txHash}`);
             const tx = response.data;
 
             if (!tx) {
